@@ -34,14 +34,20 @@ public class CourseDAO extends MyDAO {
 
     public List<Course> getCoursesBySemester(int userID, int semesterId) {
         ArrayList<Course> list = new ArrayList<>();
-        xSql = "SELECT *\n"
-                + "FROM Courses c \n"
-                + "JOIN Semesters s ON s.SemesterID = c.SemesterID \n"
-                + "WHERE c.CourseId IN (\n"
-                + "  SELECT CourseId\n"
-                + "  FROM CourseAssignment\n"
-                + "  WHERE UserId = ?\n"
-                + ") AND c.SemesterID = ?";
+        xSql = "SELECT c.*, s.SemesterDescription\n"
+                + "FROM Courses c\n"
+                + "INNER JOIN (\n"
+                + "    SELECT DISTINCT c1.CourseID, s1.SemesterDescription\n"
+                + "    FROM Courses c1\n"
+                + "    INNER JOIN CourseAssignment ca ON c1.CourseID = ca.CourseID\n"
+                + "    INNER JOIN Classes cl ON ca.ClassID = cl.ClassID\n"
+                + "    INNER JOIN ClassAssignments cla ON cl.ClassID = cla.ClassID\n"
+                + "    INNER JOIN Users u ON cla.UserID = u.UserID\n"
+                + "    INNER JOIN Semesters s1 ON c1.SemesterID = s1.SemesterID\n"
+                + "    WHERE u.UserID = ? \n"
+                + "    AND c1.SemesterID = ? \n"
+                + ") AS subquery ON c.CourseID = subquery.CourseID\n"
+                + "INNER JOIN Semesters s ON c.SemesterID = s.SemesterID;";
         try {
             ps = con.prepareStatement(xSql);
             ps.setInt(1, userID);
@@ -77,14 +83,19 @@ public class CourseDAO extends MyDAO {
 
     public List<Course> getAssignedCoursesById(int userID) {
         ArrayList<Course> list = new ArrayList<>();
-        xSql = "SELECT *\n"
-                + "FROM Courses c \n"
-                + "JOIN Semesters s ON s.SemesterID = c.SemesterID \n"
-                + "WHERE c.CourseId IN (\n"
-                + "  SELECT CourseId\n"
-                + "  FROM CourseAssignment\n"
-                + "  WHERE UserId = ?\n"
-                + ");";
+        xSql = "SELECT c.*, s.SemesterDescription\n"
+                + "FROM Courses c\n"
+                + "INNER JOIN (\n"
+                + "    SELECT DISTINCT c1.CourseID, s1.SemesterDescription\n"
+                + "    FROM Courses c1\n"
+                + "    INNER JOIN CourseAssignment ca ON c1.CourseID = ca.CourseID\n"
+                + "    INNER JOIN Classes cl ON ca.ClassID = cl.ClassID\n"
+                + "    INNER JOIN ClassAssignments cla ON cl.ClassID = cla.ClassID\n"
+                + "    INNER JOIN Users u ON cla.UserID = u.UserID\n"
+                + "    INNER JOIN Semesters s1 ON c1.SemesterID = s1.SemesterID\n"
+                + "    WHERE u.UserID = ?\n"
+                + ") AS subquery ON c.CourseID = subquery.CourseID\n"
+                + "INNER JOIN Semesters s ON c.SemesterID = s.SemesterID;";
         try {
             ps = con.prepareStatement(xSql);
             ps.setInt(1, userID);

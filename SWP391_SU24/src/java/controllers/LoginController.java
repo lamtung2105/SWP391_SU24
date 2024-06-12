@@ -30,7 +30,6 @@ import utils.ConstantUtils;
  *
  * @author LAPTOP
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/login"})
 public class LoginController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

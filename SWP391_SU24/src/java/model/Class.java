@@ -10,31 +10,31 @@ package model;
  */
 public class Class {
 
-    private int classID;
-    private String className;
+    private int id;
+    private String name;
 
     public Class() {
     }
 
-    public Class(int classID, String className) {
-        this.classID = classID;
-        this.className = className;
+    public Class(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
-    public int getClassID() {
-        return classID;
+    public int getId() {
+        return id;
     }
 
-    public void setClassID(int classID) {
-        this.classID = classID;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getClassName() {
-        return className;
+    public String getName() {
+        return name;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

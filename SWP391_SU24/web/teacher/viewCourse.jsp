@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<c:set var="semester" value="${empty param.semester ? -1 : param.semester}"></c:set>
+<c:set var="class" value="${empty param.class ? -1 : param.class}"></c:set>
     <!DOCTYPE html>
 
     <style>
@@ -57,17 +57,17 @@
             <div class="admin-content">
                 <div class="form-container">
                     <div class="title">
-                        <h1>Your Courses</h1>
+                        <h1>Course Details</h1>
                     </div>
                     <div class="filters">
-                        <form method="get" action="${pageContext.request.contextPath}/teacher">
+                        <form method="get" action="${pageContext.request.contextPath}/teacher/view-course">
                             <div>
-                                Semesters:
-                                <select name="semester" value="${empty param.semester ? -1 : param.semester}" onchange="this.form.submit()">
+                                Class Name:
+                                <select name="class" value="${empty param.class ? -1 : param.class}" onchange="this.form.submit()">
                                     <option value="-1">All</option>
-                                    <c:forEach var="item" items="${semesters}">
-                                        <option value="${item.id}" ${semester == item.id ? "selected" : ''} >
-                                            ${item.description}
+                                    <c:forEach var="item" items="${classes}">
+                                        <option value="${item.id}" ${class == item.id ? "selected" : ''} >
+                                            ${item.name}
                                         </option>
                                     </c:forEach>
                                 </select>
@@ -78,7 +78,7 @@
                     <table>
                         <thead>
                             <tr>
-                                <th class="cel-1">Courses</th>
+                                <th class="cel-1">Exams</th>
                                 <th>Options</th>
                             </tr>
                         </thead>
@@ -97,7 +97,7 @@
                                     </td>
                                     <td>
                                         <div class="options">
-                                            <a href="${pageContext.request.contextPath}/teacher/view-course?courseId=${x.id}"><i class="fa-solid fa-pen-to-square"></i>View</a>
+                                            <a href="${pageContext.request.contextPath}/teacher/edit-quiz?courseId=${x.id}"><i class="fa-solid fa-pen-to-square"></i>Edit</a>
                                         </div>
                                     </td>
                                 </tr>

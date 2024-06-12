@@ -4,6 +4,7 @@
  */
 package controllers;
 
+import dal.ClassDAO;
 import dal.CourseDAO;
 import dal.SemesterDAO;
 import java.io.IOException;
